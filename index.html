@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徐思炀个人网站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow: hidden;
+            color: #e0e0e0;
+            background-color: #121212;
+        }
+        
+        /* 页面容器 */
+        .page-container {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 全屏页面 */
+        .fullscreen-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            background-color: #1e1e1e;
+            overflow: hidden;
+            padding: 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            background-color: rgba(30, 30, 30, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 15px 10px;
+            transition: all 0.3s ease;
+            min-width: 60px;
+            border: 1px solid #333;
+        }
+        
+        .navbar:hover {
+            min-width: 180px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #e0e0e0;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(100, 149, 237, 0.2);
+            color: #6495ed;
+        }
+        
+        .nav-item.active {
+            background-color: rgba(100, 149, 237, 0.3);
+            color: #6495ed;
+            font-weight: 500;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-right: 10px;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .nav-text {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .navbar:hover .nav-text {
+            opacity: 1;
+        }
+        
+        .sub-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding-left: 10px;
+            margin-left: 10px;
+            border-left: 1px dashed #444;
+        }
+        
+        .nav-item:hover .sub-nav {
+            max-height: 200px;
+        }
+        
+        .sub-nav .nav-item {
+            margin: 6px 0;
+            padding: 6px 8px;
+            font-size: 14px;
+        }
+        
+        /* 通用内容容器 */
+        .content-container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 首页特定样式 */
+        .home-page {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .name-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .job-title {
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #90caf9;
+        }
+        
+        .personal-motto {
+            font-size: 1.8rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: #bbdefb;
+        }
+        
+        .welcome-text {
+            font-size: 1.4rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+        
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .contact-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .contact-icon i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        /* 其他页面样式 */
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #ffffff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #6495ed;
+            border-radius: 2px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            color: #bbbbbb;
+        }
+        
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 15px;
+        }
+        
+        /* 个人简介页面 */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .profile-photo {
+            width: 300px;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+        
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+	    /* 三列布局容器 */
+		.info-columns {
+			display: flex;
+			gap: 40px;
+			margin-top: 20px;
+		}
+
+		/* 每列的样式 */
+		.info-column {
+			flex: 1;
+			background-color: #2d2d2d;
+			border-radius: 10px;
+			padding: 20px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+			border: 1px solid #333;
+			transition: all 0.3s ease;
+		}
+
+		.info-column:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+			border-color: #6495ed;
+		}
+
+		/* 调整info-item在列内的样式 */
+		.info-column .info-item {
+			margin-bottom: 15px;
+			font-size: 1.2rem;
+		}
+
+		.info-column .section-title {
+			margin-top: 0;
+			margin-bottom: 20px;
+			padding-bottom: 10px;
+			border-bottom: 2px solid #444;
+			color: #6495ed;
+		}
+
+		/* 移动端响应式调整 */
+		@media (max-width: 992px) {
+			.info-columns {
+				flex-direction: column;
+				gap: 30px;
+			}
+
+			.info-column {
+				padding: 20px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.info-columns {
+				gap: 25px;
+			}
+
+			.info-column {
+				padding: 18px;
+			}
+		}
+        
+        /* 专业技能页面 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .skill-category {
+            margin-bottom: 0;
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #6495ed;
+        }
+        
+        .skill-icon {
+            font-size: 2.2rem;
+            color: #6495ed;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(100, 149, 237, 0.1);
+            border-radius: 50%;
+        }
+        
+        .skill-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 10px 0 15px;
+            color: #ffffff;
+        }
+        
+        .skill-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cccccc;
+            flex-grow: 1;
+        }
+        
+        /* 游戏经历页面 */
+        .game-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .game-item {
+            background-color: #2d2d2d;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border: 1px solid #444;
+            color: #e0e0e0;
+        }
+        
+        .game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            background-color: #6495ed;
+            color: white;
+        }
+        
+        /* 作品展示页面 */
+        .work-preview {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-top: 30px;
+        }
+        
+        .work-screenshot {
+            flex: 1;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .work-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .work-details {
+            flex: 1;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #6495ed;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .download-btn:hover {
+            background-color: #3a75e0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(58, 117, 224, 0.4);
+        }
+        
+        /* 联系方式页面 */
+        .contact-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .contact-method {
+            flex: 1;
+            min-width: 250px;
+            background-color: #2d2d2d;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #e0e0e0;
+            border: 1px solid #333;
+        }
+        
+        .contact-method h3 {
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .social-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #00a1d6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background-color: #0087b3;
+            transform: translateY(-2px);
+        }
+        
+        /* 页面指示器 */
+        .page-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .page-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(100, 149, 237, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-dot.active {
+            background-color: #6495ed;
+            transform: scale(1.3);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .content-container {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .profile-photo {
+                width: 250px;
+                height: 330px;
+            }
+            
+            .work-preview {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .name-title {
+                font-size: 3.2rem;
+            }
+            
+            .job-title {
+                font-size: 1.8rem;
+            }
+            
+            /* 专业技能网格响应式 */
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .skill-category {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                display: none;
+            }
+            
+            .page-indicator {
+                display: none;
+            }
+            
+            .name-title {
+                font-size: 2.5rem;
+            }
+            
+            .job-title {
+                font-size: 1.5rem;
+            }
+            
+            .content-container {
+                padding: 15px;
+            }
+            
+            /* 专业技能网格响应式 */
+            .skills-grid {
+                gap: 20px;
+            }
+            
+            .skill-category {
+                padding: 18px;
+            }
+            
+            .skill-title {
+                font-size: 1.6rem;
+            }
+            
+            .skill-content {
+                font-size: 1rem;
+            }
+        }
+        
+        /* 滚动提示 */
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+        
+        .scroll-hint i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-item active" data-page="0">
+                <div class="nav-icon"><i class="fas fa-home"></i></div>
+                <div class="nav-text">首页</div>
+            </div>
+            <div class="nav-item" data-page="1">
+                <div class="nav-icon"><i class="fas fa-user"></i></div>
+                <div class="nav-text">个人简介</div>
+            </div>
+            <div class="nav-item" data-page="2">
+                <div class="nav-icon"><i class="fas fa-code"></i></div>
+                <div class="nav-text">专业技能</div>
+            </div>
+            <div class="nav-item" data-page="3">
+                <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="nav-text">游戏经历</div>
+            </div>
+            <div class="nav-item has-subnav" data-page="4">
+                <div class="nav-icon"><i class="fas fa-folder-open"></i></div>
+                <div class="nav-text">作品集</div>
+                <div class="sub-nav">
+                    <div class="nav-item" data-page="4">
+                        <div class="nav-text">拆解报告</div>
+                    </div>
+                    <div class="nav-item" data-page="5">
+                        <div class="nav-text">策划案1</div>
+                    </div>
+                    <div class="nav-item" data-page="6">
+                        <div class="nav-text">策划案2</div>
+                    </div>
+                    <div class="nav-item" data-page="7">
+                        <div class="nav-text">游戏Demo1</div>
+                    </div>
+                    <div class="nav-item" data-page="8">
+                        <div class="nav-text">游戏Demo2</div>
+                    </div>
+                    <div class="nav-item" data-page="9">
+                        <div class="nav-text">其他作品</div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item" data-page="10">
+                <div class="nav-icon"><i class="fas fa-envelope"></i></div>
+                <div class="nav-text">联系我</div>
+            </div>
+        </nav>
+        
+        <!-- 页面指示器 -->
+        <div class="page-indicator">
+            <div class="page-dot active" data-page="0"></div>
+            <div class="page-dot" data-page="1"></div>
+            <div class="page-dot" data-page="2"></div>
+            <div class="page-dot" data-page="3"></div>
+            <div class="page-dot" data-page="4"></div>
+            <div class="page-dot" data-page="5"></div>
+            <div class="page-dot" data-page="6"></div>
+            <div class="page-dot" data-page="7"></div>
+            <div class="page-dot" data-page="8"></div>
+            <div class="page-dot" data-page="9"></div>
+            <div class="page-dot" data-page="10"></div>
+        </div>
+        
+        <!-- 页面内容 -->
+        
+        <!-- 第1页：首页 -->
+        <section class="fullscreen-page home-page" id="page0" style="z-index: 12;">
+            <div class="content-container">
+                <h1 class="name-title">徐思炀</h1>
+                <h2 class="job-title">游戏系统策划</h2>
+                <p class="personal-motto">优雅+舒适=愉悦</p>
+                <p class="welcome-text">欢迎来到我的网站，可以随便看看。</p>
+                
+                <div class="contact-icons">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                        <span>17359660136</span>
+                    </div>
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                        <span>1243306585@qq.com</span>
+                    </div>
+                </div>
+                
+                <div class="scroll-hint">
+                    <i class="fas fa-chevron-down"></i>
+                    <span>滚动切换页面</span>
+                </div>
+            </div>
+        </section>
+        
+               <!-- 第2页：个人简介 -->
+        <section class="fullscreen-page" id="page1" style="z-index: 11; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">个人简介</h2>
+                <div class="profile-container">
+                    <div class="profile-photo">
+                        <img src="photo.jpg" alt="徐思炀证件照" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="profile-info" style="flex: 1; min-width: 0;">
+                        <div class="info-columns" style="gap: 25px;">
+                            <div class="info-column" style="flex: 1.2;">
+                                <h3 class="section-title">基本信息</h3>
+                                <div class="info-item">
+                                    <span class="info-label">姓名：</span>徐思炀
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">年龄：</span>20岁
+                                </div>
+                            </div>
+
+                            <div class="info-column" style="flex: 1.4;">
+                                <h3 class="section-title">教育背景</h3>
+                                <div class="info-item">
+                                    <span class="info-label">学校：</span>南京邮电大学
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">专业：</span>数字媒体技术
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">毕业时间：</span>2027年6月
+                                </div>
+                            </div>
+
+                            <div class="info-column" style="flex: 1;">
+                                <h3 class="section-title">个性特质</h3>
+                                <p class="section-content">乐于思考，勤于沟通。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第3页：专业技能 -->
+        <section class="fullscreen-page" id="page2" style="z-index: 10; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">专业技能</h2>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="skill-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="skill-title">游戏系统设计</h3>
+                        <div class="skill-content">
+                            <p>理论基础扎实，熟读《游戏设计艺术》等专业著作。已完成2份主流游戏的系统深度拆解与优化文档。</p>
+                            <p>掌握系统从概念到落地的完整流程。能使用即时设计、Axure等工具独立完成低保真原型设计。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <div class="skill-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="skill-title">技术理解与工具应用</h3>
+                        <div class="skill-content">
+                            <p>熟悉Office系列办公软件，能高效撰写内容详实、易于理解的游戏需求文档。</p>
+                            <p>熟悉Unity引擎基础开发，能通过脚本调试与编辑器工具搭建测试场景和反馈问题。</p>
+                            <p>掌握Git版本控制。</p>
+                            <p>掌握C、C#、Python、JSON等语言，能编写简单脚本进行玩法验证。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <div class="skill-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="skill-title">沟通与协作</h3>
+                        <div class="skill-content">
+                            <p>具备良好的团队协作与跨部门沟通能力，善于与程序、美术等多职能角色协同，有效调解分歧、推进问题解决，保障系统设计方案的高质量落地。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <div class="skill-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="skill-title">其他能力</h3>
+                        <div class="skill-content">
+                            <p>英语能力良好，已通过CET-4、CET-6。</p>
+                            <p>熟练使用PS、AE、Pr、AI、Dw等Adobe系列软件，掌握3D Max等三维工具，具备视频剪辑与后期制作能力。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第4页：游戏经历 -->
+        <section class="fullscreen-page" id="page3" style="z-index: 9; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">游戏经历</h2>
+                <p class="section-content">以下是我深度体验过的一部分游戏，涵盖多种类型和平台，积累了丰富的游戏体验。</p>
+                
+                <div class="game-cloud">
+                    <div class="game-item">《原神》 (2021年至今 | 58级 | 氪金1000+)</div>
+                    <div class="game-item">《明日方舟》 (2021年至今 | 102级 | 氪金1000+)</div>
+                    <div class="game-item">《阴阳师：百闻牌》 (2019年开服至今 | 天梯七段 | 氪金5000+)</div>
+                    <div class="game-item">《炉石传说（酒馆战棋）》 (2024年至今 | 7000分 | 氪金200+)</div>
+                    <div class="game-item">《文明6》 (130+小时)</div>
+                    <div class="game-item">《永劫无间》 (180+小时 | 氪金500+)</div>
+                    <div class="game-item">《黑神话：悟空》 (50+小时 | 通关)</div>
+                    <div class="game-item">《空洞骑士：丝之歌》 (50+小时 | 通关)</div>
+                    <div class="game-item">《杀戮尖塔》 (300+小时)</div>
+                    <div class="game-item">《王者荣耀》 (2016-2022年 | 氪金5000+)</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第5页：拆解报告 -->
+        <section class="fullscreen-page" id="page4" style="z-index: 8; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">拆解报告</h2>
+                
+                <div class="work-preview">
+                    <div class="work-screenshot">
+                        <!-- 拆解报告截图占位 -->
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; text-align: center;">
+                            施工中
+                        </div>
+                    </div>
+                    <div class="work-details">
+                        <h3 class="section-title">《明日方舟》集成战略系统拆解报告</h3>
+                        <p class="section-content"><strong>设计目的：增加玩家活跃时间，驱动横向养成</strong>。</p>
+                        <p class="section-content"><strong>内容概述：核心循环“获取角色-组建队伍-体验关卡”</strong>。</p>
+                        <p class="section-content"><strong>优缺点：底层机制踏实有趣。 |  部分机制随机性过高</strong>。</p>
+                        <p class="section-content"><strong>改进措施：roll开局，藏品设计，地图机制等调整建议</strong>。</p>
+                        
+                        <a href="PDF.pdf" download="《明日方舟》集成战略系统拆解报告.pdf" class="download-btn">查看完整策划案PDF</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第6页：策划案1 -->
+        <section class="fullscreen-page" id="page5" style="z-index: 7; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">策划案</h2>
+                
+                <div class="work-preview">
+                    <div class="work-screenshot">
+                        <!-- 策划案1截图占位 -->
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; text-align: center;">
+                            施工中
+                        </div>
+                    </div>
+                    <div class="work-details">
+                        <h3 class="section-title">《Bubble Cat》策划案</h3>
+                        <p class="section-content"><strong>项目类型：</strong>小体量动作解密游戏</p>
+                        <p class="section-content"><strong>项目背景：</strong>2025 Global Gamejam作品，主题"Bubble"</p>
+                        <p class="section-content"><strong>负责部分：</strong>项目管理，玩法设计，策划案撰写，背景音乐创作</p>
+                        <p class="section-content"><strong>核心玩法：</strong>泡泡和角色的物理交互，泡泡水资源管理。</p>
+                        <p class="section-content"><strong>设计亮点：</strong>物理与解谜的巧妙结合，横版开放地图。</p>
+                        
+                        <a href="PDF.pdf" download="《Bubble Cat》策划案.pdf" class="download-btn">查看完整策划案PDF</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第7页：策划案2 -->
+        <section class="fullscreen-page" id="page6" style="z-index: 6; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">策划案</h2>
+                
+                <div class="work-preview">
+                    <div class="work-screenshot">
+                        <!-- 策划案2截图占位 -->
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; text-align: center;">
+                            施工中
+                        </div>
+                    </div>
+                    <div class="work-details">
+                        <h3 class="section-title">《魔女故事书》玩法系统策划案</h3>
+                        <p class="section-content"><strong>项目类型：</strong>中等体量rougelike卡牌战棋游戏</p>
+                        <p class="section-content"><strong>项目状态：</strong>正在研发中</p>
+                        <p class="section-content"><strong>负责部分：</strong>项目管理，玩法设计，策划案撰写</p>
+                        <p class="section-content"><strong>核心玩法：</strong>融合卡牌构筑与战棋策略，玩家扮演魔女在故事书中的世界进行探索，收集卡牌组建牌组，挑战各种敌人和BOSS。</p>
+                        <p class="section-content"><strong>设计亮点：</strong>8张卡牌的超小牌组，独特的手牌顺序机制，丰富且深刻的世界观。</p>
+                        
+                        <a href="PDF.pdf" download="《魔女故事书》策划案.pdf" class="download-btn">查看完整策划案PDF</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第8页：Demo1 -->
+        <section class="fullscreen-page" id="page7" style="z-index: 5; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">游戏Demo</h2>
+                
+                <div class="work-preview">
+                    <div class="work-details">
+                        <h3 class="section-title">《前夜》</h3>
+                        <p class="section-content"><strong>项目类型：</strong>双人对战小游戏</p>
+                        <p class="section-content"><strong>项目背景：</strong>2023年南京邮电大学校科技节比赛作品</p>
+                        <p class="section-content"><strong>负责部分：</strong>玩法设计，策划案撰写</p>
+                        <p class="section-content"><strong>设计亮点：</strong>生存与进攻资源共享，易懂难精的策略和节奏把控。</p>
+                        <p class="section-content"><strong>项目成果：</strong>获得比赛二等奖。</p>
+                        
+                        <div style="margin-top: 30px; background-color: #2d2d2d; padding: 20px; border-radius: 10px; border: 1px solid #333;">
+                            <h4 style="margin-bottom: 15px; color: #ffffff;">演示视频</h4>
+                            <video 
+								controls 
+								style="width: 100%; border-radius: 5px;"
+								<source src="《前夜》视频.mp4" type="video/mp4">
+								您的浏览器不支持视频播放，请尝试使用现代浏览器。
+							</video>
+                        </div>
+                    </div>
+                    
+                    <div class="work-screenshot">
+                        <img src="《前夜》演示图.png" alt="《前夜》游戏截图" style="width: 100%; height: 100%; object-fit: cover;">
+                            《前夜》<br>游戏截图
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第9页：Demo2 -->
+        <section class="fullscreen-page" id="page8" style="z-index: 4; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">游戏Demo</h2>
+                
+                <div class="work-preview">
+                    <div class="work-screenshot">
+                        <img src="《泡泡猫》演示图.png" alt="《Bubble Cat》游戏截图" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="work-details">
+                        <h3 class="section-title">《Bubble Cat》</h3>
+                        <p class="section-content"><strong>项目类型：</strong>小体量动作解密游戏</p>
+                        <p class="section-content"><strong>项目背景：</strong>2025 Global Gamejam作品，主题"Bubble"</p>
+                        <p class="section-content"><strong>负责部分：</strong>项目管理，玩法设计，策划案撰写，背景音乐创作</p>
+                        <p class="section-content"><strong>项目成果：</strong>在48小时内完成可玩Demo开发，获得活动评委好评，特别是物理交互和关卡设计方面。</p>
+                        
+                        <div style="margin-top: 30px; background-color: #2d2d2d; padding: 20px; border-radius: 10px; border: 1px solid #333;">
+                            <h4 style="margin-bottom: 15px; color: #ffffff;">演示视频</h4>
+                            <video 
+								controls 
+								style="width: 100%; border-radius: 5px;"
+								<source src="《泡泡猫》视频.mp4" type="video/mp4">
+								您的浏览器不支持视频播放，请尝试使用现代浏览器。
+							</video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第10页：其他作品 -->
+        <section class="fullscreen-page" id="page9" style="z-index: 3; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">其他作品</h2>
+                <p class="section-content">以下是我参与开发的其他游戏项目，涵盖不同类型和玩法。</p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 40px;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <div style="height: 200px; border-radius: 10px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                            <img src="《塔罗牌》演示图.png" alt="塔罗牌游戏截图" style="width:100%; height:100%; object-fit: cover;">
+                        </div>
+                        <h3 class="section-title" style="margin-top: 0; color: #90caf9;">2024.02《塔罗牌》</h3>
+                        <p class="section-content">机制创新的卡牌对战游戏，玩家需要管理手牌资源，灵活施放角色技能，以此战胜对手。</p>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 300px;">
+                        <div style="height: 200px; border-radius: 10px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                            <img src="《九章田园境》演示图.png" alt="九章田园境游戏截图" style="width:100%; height:100%; object-fit: cover;">
+                        </div>
+                        <h3 class="section-title" style="margin-top: 0; color: #90caf9;">2024.04《九章田园境》</h3>
+                        <p class="section-content">为儿童设计的数学启蒙游戏，宣传中国古代优秀数学著作《九章算术》。</p>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 300px;">
+                        <div style="height: 200px; border-radius: 10px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                            <img src="《物时》演示图.png" alt="物时游戏截图" style="width:100%; height:100%; object-fit: cover;">
+                        </div>
+                        <h3 class="section-title" style="margin-top: 0; color: #90caf9;">《物时》</h3>
+                        <p class="section-content">以维修"水运浑天仪"为核心的解谜游戏，构建了拥有五层深度的横版大地图。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 第11页：联系方式与求职意向 -->
+        <section class="fullscreen-page" id="page10" style="z-index: 2; transform: translateY(100%);">
+            <div class="content-container">
+                <h2 class="page-title">联系方式与求职意向</h2>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <h3 class="section-title">求职意向</h3>
+                        <p class="section-content">寻求游戏系统策划岗位，期望参与重视系统轻量化设计和玩家体验优化的游戏项目。</p>
+                        <p class="section-content">希望能加入一个充满创造力、重视玩家反馈的团队，共同打造令人难忘的游戏体验。</p>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <h3 class="section-title">联系方式</h3>
+                        <div class="info-item">
+                            <span class="info-label">手机：</span>17359660136
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">邮箱：</span>1243306585@qq.com
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">QQ：</span>1243306585
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">微信：</span>wx18205163672
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <h3 class="section-title">社交资料</h3>
+                        <p class="section-content">您可以通过以下平台了解更多关于我的信息：</p>
+                        
+                        <a href="https://space.bilibili.com/3546366406035567" target="_blank" class="social-btn">
+                            <i class="fab fa-bilibili" style="margin-right: 8px;"></i> Bilibili个人主页
+                        </a>
+                        
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #333;">
+                    <p class="section-content">感谢您花时间浏览我的个人简历网站！期待与您进一步交流。</p>
+                    <p style="margin-top: 10px; color: #7f8c8d;">© 2025 徐思炀 - 游戏系统策划个人简历</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 页面切换逻辑
+        let currentPage = 0;
+        const totalPages = 11; 
+        let isScrolling = false;
+        const scrollDelay = 800; // 滚动延迟，防止过度滚动
+        
+        // 获取所有页面元素
+        const pages = document.querySelectorAll('.fullscreen-page');
+        const navItems = document.querySelectorAll('.nav-item');
+        const pageDots = document.querySelectorAll('.page-dot');
+        
+        // 初始化页面位置
+        function initPages() {
+            for (let i = 0; i < totalPages; i++) {
+                pages[i].style.transform = `translateY(${i * 100}%)`;
+            }
+        }
+        
+        // 滚动到指定页面
+        function scrollToPage(pageIndex) {
+            if (pageIndex < 0 || pageIndex >= totalPages || isScrolling) return;
+            
+            isScrolling = true;
+            currentPage = pageIndex;
+            
+            // 移动所有页面
+            for (let i = 0; i < totalPages; i++) {
+                pages[i].style.transform = `translateY(${(i - currentPage) * 100}%)`;
+            }
+            
+            // 更新导航项状态
+            updateNavAndDots();
+            
+            // 滚动结束后重置标志
+            setTimeout(() => {
+                isScrolling = false;
+            }, scrollDelay);
+        }
+        
+        // 更新导航和页面指示器
+        function updateNavAndDots() {
+            // 更新导航项
+            navItems.forEach((item, index) => {
+                item.classList.remove('active');
+                // 检查是否是当前页面对应的导航项
+                if (parseInt(item.dataset.page) === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // 更新页面指示点
+            pageDots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (parseInt(dot.dataset.page) === currentPage) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+        
+        // 鼠标滚轮事件监听
+        document.addEventListener('wheel', function(e) {
+            if (isScrolling) return;
+            
+            // 检测滚动方向
+            if (e.deltaY > 0) {
+                // 向下滚动，切换到下一页
+                scrollToPage(currentPage + 1);
+            } else {
+                // 向上滚动，切换到上一页
+                scrollToPage(currentPage - 1);
+            }
+        });
+        
+        // 导航项点击事件
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const pageIndex = parseInt(this.dataset.page);
+                scrollToPage(pageIndex);
+            });
+        });
+        
+        // 页面指示点点击事件
+        pageDots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const pageIndex = parseInt(this.dataset.page);
+                scrollToPage(pageIndex);
+            });
+        });
+        
+        // 键盘事件支持
+        document.addEventListener('keydown', function(e) {
+            if (isScrolling) return;
+            
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                scrollToPage(currentPage + 1);
+                e.preventDefault();
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                scrollToPage(currentPage - 1);
+                e.preventDefault();
+            } else if (e.key >= '0' && e.key <= '9') {
+                // 数字键直接跳转页面（0表示第10页，1-9表示第1-9页）
+                let pageNum = parseInt(e.key);
+                if (pageNum === 0) pageNum = 10;
+                if (pageNum <= totalPages) {
+                    scrollToPage(pageNum - 1);
+                }
+            }
+        });
+        
+        // 初始化
+        initPages();
+        updateNavAndDots();
+        
+        // 触摸设备支持
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (isScrolling) return;
+            
+            const touchEndX = e.touches[0].clientX;
+            const touchEndY = e.touches[0].clientY;
+            
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+            
+            // 如果垂直滑动距离大于水平滑动距离，则认为是垂直滑动
+            if (Math.abs(dy) > Math.abs(dx)) {
+                if (dy > 50) {
+                    // 向下滑动，切换到上一页
+                    scrollToPage(currentPage - 1);
+                } else if (dy < -50) {
+                    // 向上滑动，切换到下一页
+                    scrollToPage(currentPage + 1);
+                }
+            }
+            
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 阻止下拉刷新
+        document.addEventListener('touchmove', function(e) {
+            if (e.scale !== 1) { e.preventDefault(); }
+        }, { passive: false });
+    </script>
+</body>
+</html>
